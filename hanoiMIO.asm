@@ -1,4 +1,15 @@
+#autores: Fernanda Muñoz y luis Fernando 
+#20/02/2018 - 25/02/2018
 
+.text
+ 
+ 	addi $s0, $0, 8 	 	#numero de discos
+ 	addi $s1, $0, 0x10010000 	#torre origen
+ 	addi $s2, $0, 0x10010020 	#torre auxiliar 
+ 	addi $s3, $0, 0x10010040 	#torre destino
+ 	
+ 
+ #inicialización
  TORRES:
  
  	beq $s0,$0, HANOI 		#BRINCAR A HANOI SI YA ESTAN TODOS LOS DISCOS EN LA PRIMERA TORRE Y YA NO EN EL REGISTRO
@@ -8,27 +19,30 @@
 	j TORRES			#CREA RECURSIVIDAD 
 	j EXIT				#CUANDO SE CUMPLE TODO LO SIGUIENTE, SALE DEL PROGRAMA
  
+ 
  HANOI:
  
  	bne $s0, 1, ELSE		# INICIO DE RECURSUVIDAD/ si n es diferente de 1 saltar al else  
- 	lw $t2, -4($s1) 	
-	sw $0, -4($s1)		
+ 	lw $t2, -4($s1) 		#guardar en temporal el disco de ariba que esta en n
+	sw $0, -4($s1)			#borrar el disco guardado antes del registro n
+		
+	sw $t2, 0($s3) 			#mover el disco guardado en el temporal 2 a la torre destino
+	addi $s3, $s3, 4 		#agrego un byte para pasar a la siguiente dirección de memoria en torre destino
+	addi $s1, $s1, -4		#le quito un byte para acceder al siguiente disco.
 	
-	sw $t2, 0($s3) 		
-	addi $s3, $s3, 4 	
-	addi $s1, $s1, -4
-	
-	jr $ra
+	jr $ra				#salta a la dirección que estaba guardada en ra y sigue ejecutando 
  	
  	
  ELSE:
  
  
- 
 	lw $t0, ($s1)			# carga en un temporal el valor de la torre de inicio
- 	addi $sp, $sp, -8 		#se le quita espacio al stack para poder trabajar ahí
-	sw $ra, 4($sp) 			#guardamos espacio para ra en el stack
-	sw $s0, 0($sp) 			#guardamos espacio para los discos en el stack
+ 	addi $sp, $sp, -20 		#se le quita espacio al stack para poder trabajar ahí
+	sw $ra, 20($sp) 		#guardamos 1 byte de espacio para ra en el stack
+	sw $s0, 16($sp) 		#guardamos 1 byte de espacio para los discos en el stack
+	sw $s1, 8($sp) 			#guardamos 1 byte de espacio para la torre origen en el stack
+	sw $s2, 4($sp) 			#guardamos 1 byte de espacio para la torre auxiliar en el stack
+	sw $s3, 0($sp) 			#guardamos 1 byte de espacio para la torre destino en el stack
 	addi $s0, $s0, -1 		#le restamos 1 disco a la pila de s0
 
  	
@@ -40,7 +54,7 @@
 	jal HANOI 			#llamamos a HANOI/ recursividad 
 
 	add $t1, $s2, $0 		#repito proceso anterior
-	add $s2, $s3, $0
+	add $s2, $s3, $0		
 	add $s3, $t1, $0
 	
 	lw $t2, -4($s1) 		
