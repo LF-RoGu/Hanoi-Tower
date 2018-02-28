@@ -1,3 +1,7 @@
+#autor: Fernanda Muñoz 
+#fecha: 25/02/2018
+#clase: Arquitectura de computadoras
+#profesor: Jose Luis Pizano
 
 .text
 
