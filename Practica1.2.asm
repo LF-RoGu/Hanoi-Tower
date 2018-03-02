@@ -1,16 +1,17 @@
-#autor: Fernanda Muñoz
+#autor: Fernanda MuÃ±oz
 #	Luis Fernando Rguez
 #fecha: 25/02/2018
 #clase: Arquitectura de computadoras
 #profesor: Jose Luis Pizano
 
+#aun no funciona
 .text
 
 	addi $s0, $0, 3 			#guardo el registro de discos n
 	addi $s1, $0, 0x10010000 		#guardo la torre origen
 	addi $s2, $0, 0x10010020		#guardo la torre auxiliar
 	addi $s3, $0, 0x10010040		#guardo la torre destino 
-	add $t0, $0, $s0 			# segunda opción creo un temporal para guardar el registro de discos y usarlo en la inicialización de torres
+	add $t0, $0, $s0 			# segunda opciÃ³n creo un temporal para guardar el registro de discos y usarlo en la inicializaciÃ³n de torres
 
 TORRES:						#Inicializo las torres
 	sw $t0, ($s1) 				#guardo en s1 el temporal
@@ -24,9 +25,9 @@ TORRES:						#Inicializo las torres
 HANOI:
 	beq $s0, 1, Else 			#si la torre 1 tiene 1 disco brinca a else
 
-	#inicialización del stack (todo bien hasta aquí)
-	addi $sp, $sp, -8 			#le quito espacio al stack para trabajar ahí
-	sw $ra, 4($sp) 			#guardo espacio para la dirección del registro
+	#inicializaciÃ³n del stack (todo bien hasta aquÃ­)
+	addi $sp, $sp, -8 			#le quito espacio al stack para trabajar ahÃ­
+	sw $ra, 4($sp) 			#guardo espacio para la direcciÃ³n del registro
 	sw $s0, 0($sp) 			#guardo espacio para el registro de discos
 	
 	addi $s0, $s0, -1 			#le resto 1 a los discos
